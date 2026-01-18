@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>The Wedding of Fadli & Silvia</title>
+
+<!-- GOOGLE FONT (GANTI JIKA PERLU) -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --theme-color: #d4af37; /* 🔥 GANTI WARNA TEMA DI SINI */
+}
+
+*{
+  box-sizing: border-box;
+}
+
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:#000;
+}
+
+/* COVER */
+.cover{
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55)),
+    url('cover.jpg') center/cover no-repeat;
+  color:#fff;
+  text-align:center;
+  z-index:10;
+}
+
+/* TEKS ATAS */
+.cover-content{
+  position:absolute;
+  top:18%;
+  width:100%;
+  padding:0 20px;
+}
+
+.cover-content small{
+  letter-spacing:3px;
+  font-size:12px;
+  opacity:.9;
+}
+
+.cover-content h1{
+  font-family:'Playfair Display',serif;
+  font-size:38px;
+  margin:12px 0;
+}
+
+.cover-content p{
+  font-size:14px;
+  margin:0;
+  opacity:.95;
+}
+
+/* NAMA TAMU */
+#guest{
+  margin-top:10px;
+  font-weight:400;
+}
+
+/* BUTTON */
+#openBtn{
+  position:absolute;
+  bottom:25%;
+  left:50%;
+  transform:translateX(-50%);
+  padding:14px 38px;
+  border-radius:30px;
+  border:none;
+  background:var(--theme-color);
+  color:#000;
+  font-size:13px;
+  letter-spacing:1px;
+  cursor:pointer;
+}
+
+/* MUSIC BUTTON */
+.music-btn{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  z-index:20;
+}
+
+/* CANVA */
+iframe{
+  width:100vw;
+  height:100vh;
+  border:none;
+  display:none;
+}
+
+/* MOBILE OPTIMIZATION */
+@media(max-width:480px){
+  .cover-content h1{
+    font-size:32px;
+  }
+  #openBtn{
+    font-size:12px;
+    padding:12px 34px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <div class="cover-content">
+    <small>THE WEDDING OF</small>
+    <h1>Fadli & Silvia</h1>
+    <p>Kepada Yth.</p>
+    <p id="guest">Bapak / Ibu / Saudara/i</p>
+  </div>
+  <button id="openBtn">BUKA UNDANGAN</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<div class="music-btn" id="musicBtn">⏸</div>
+
+<!-- CANVA -->
+<iframe
+  id="canvaFrame"
+  src="https://wedding-fadli-silvia.my.canva.site/">
+</iframe>
+
+<script>
+/* AMBIL NAMA TAMU */
+const params = new URLSearchParams(window.location.search);
+const guestName = params.get("to");
+if(guestName){
+  document.getElementById("guest").innerText = decodeURIComponent(guestName);
+}
+
+/* MUSIC & OPEN */
+const openBtn = document.getElementById("openBtn");
+const cover = document.getElementById("cover");
+const music = document.getElementById("bgMusic");
+const iframe = document.getElementById("canvaFrame");
+const musicBtn = document.getElementById("musicBtn");
+
+let isPlaying = true;
+
+/* FADE IN MUSIC */
+function fadeIn(audio){
+  audio.volume = 0;
+  audio.play();
+  let vol = 0;
+  const fade = setInterval(()=>{
+    if(vol < 0.4){
+      vol += 0.02;
+      audio.volume = vol;
+    }else{
+      clearInterval(fade);
+    }
+  },150);
+}
+
+openBtn.addEventListener("click", ()=>{
+  cover.style.display="none";
+  iframe.style.display="block";
+  musicBtn.style.display="flex";
+  fadeIn(music);
+});
+
+/* PLAY / PAUSE */
+musicBtn.addEventListener("click", ()=>{
+  if(isPlaying){
+    music.pause();
+    musicBtn.textContent="▶";
+  }else{
+    music.play();
+    musicBtn.textContent="⏸";
+  }
+  isPlaying = !isPlaying;
+});
+</script>
+
+</body>
+</html>
