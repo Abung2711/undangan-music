@@ -141,12 +141,6 @@ iframe{
 
 <div class="music-btn" id="musicBtn">⏸</div>
 
-<!-- CANVA -->
-<iframe
-  id="canvaFrame"
-  src="https://wedding-fadli-silvia.my.canva.site/">
-</iframe>
-
 <script>
 /* AMBIL NAMA TAMU */
 const params = new URLSearchParams(window.location.search);
@@ -159,7 +153,6 @@ if(guestName){
 const openBtn = document.getElementById("openBtn");
 const cover = document.getElementById("cover");
 const music = document.getElementById("bgMusic");
-const iframe = document.getElementById("canvaFrame");
 const musicBtn = document.getElementById("musicBtn");
 
 let isPlaying = true;
@@ -181,9 +174,15 @@ function fadeIn(audio){
 
 openBtn.addEventListener("click", ()=>{
   cover.style.display="none";
-  iframe.style.display="block";
   musicBtn.style.display="flex";
   fadeIn(music);
+
+  setTimeout(()=>{
+    window.open(
+      "https://wedding-fadli-silvia.my.canva.site/",
+      "_blank"
+    );
+  }, 600);
 });
 
 /* PLAY / PAUSE */
